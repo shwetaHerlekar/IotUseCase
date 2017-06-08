@@ -83,9 +83,14 @@
 				jresp.items[i].time = jresp.items[i].time.substring(10,19);
 				data.addRow([jresp.items[i].time,parseFloat(jresp.items[i].temperature),parseFloat(jresp.items[i].humidity)]);
 		}
+		
+		var str = "\xB0";
+		str =  "Temperature & Humidity ("+str+"C)";
 		var options = {
           title: 'Sensors data',
-          legend: { position: 'bottom' }
+          legend: { position: 'bottom' },
+		  vAxis: {title: str},
+		  hAxis: {title: "Time(HH:MM:SS)"}
         };
 
         var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
