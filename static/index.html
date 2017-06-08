@@ -1,0 +1,102 @@
+<html>
+  <head>
+  <style>
+  #loading {
+    position: absolute; width: 100%; height: 100%; background: url('ajax-loader.gif') no-repeat center center;
+	}
+</style>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+	
+	//var temp=[], humidity=[], timestamp=[];
+	var jresp;
+	var data;
+	var flag ="false"
+	var first="true";
+	var interval = 60000, myDiv; 
+
+      show = function(){
+	    myDiv.style.display = "block";
+        setTimeout(hide, 5000); // 5 seconds
+      },
+
+      hide = function(){
+        myDiv.style.display = "none";
+      };
+
+	
+	window.onload = function(){
+		
+		myDiv= document.getElementById("loading"),
+		show();
+		google.charts.load('current', {'packages':['corechart']});
+		 
+		loadData();
+		setInterval(function(){ 
+		//alert("Hello"); 
+		loadData();
+		timeout+=interval;
+	   }, interval);
+	}
+	
+	function loadData() {
+		var http = new XMLHttpRequest();
+		var url;
+		if(first=="true")
+		{
+			
+			url = "https://healthcare-12.appspot.com/_ah/api/temperatures/v1/temperatures?limit=11";
+			first="false";
+		}
+		else
+		{
+			url = "https://healthcare-12.appspot.com/_ah/api/temperatures/v1/temperatures?limit=13";
+		}
+		
+		http.open("GET", url, true);
+
+		//Send the proper header information along with the request
+		http.onreadystatechange = function() {//Call a function when the state changes.
+			if(http.readyState == 4 && http.status == 200) {
+				jresp = JSON.parse(http.responseText);
+				google.charts.setOnLoadCallback(drawChart);
+			}
+		}
+		
+	   http.send();
+	}
+	
+	function drawChart() {
+        
+		if(flag=="false")
+		{
+			data = new google.visualization.DataTable();
+			data.addColumn('string', 'Timestamp');
+			data.addColumn('number', 'Temperature');
+			data.addColumn('number', 'Humidity');
+			flag="true";
+		}
+		var i;
+		for(i=jresp.items.length-1;i>=0;i--)
+		{
+				document.getElementById("date").innerHTML = "Date :"+jresp.items[i].time.substring(0,10);  
+				jresp.items[i].time = jresp.items[i].time.substring(10,19);
+				data.addRow([jresp.items[i].time,parseFloat(jresp.items[i].temperature),parseFloat(jresp.items[i].humidity)]);
+		}
+		var options = {
+          title: 'Sensors data',
+          legend: { position: 'bottom' }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+        chart.draw(data, options);
+      }
+    </script>
+  </head>
+  <body>
+	<div id="loading"></div>
+    <div id="curve_chart" style="width: 900px; height: 500px"></div>
+	<p id="date" style="margin-left:380px;"></p>
+  </body>
+</html>
