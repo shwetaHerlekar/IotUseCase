@@ -45,7 +45,7 @@
 		var url;
 		if(first=="true")
 		{
-			
+			sensor = document.getElementById("mySelect").value;
 			url = "https://healthcare-12.appspot.com/_ah/api/temperatures/v1/temperatures?limit=11&sensor="+sensor;
 			//first="false";
 		}
@@ -100,7 +100,7 @@
       }
 	
 	function myFunction() {
-    sensor = document.getElementById("mySelect").value;
+    //alert("changing value");
 	first="true";
 	loadData();
 	}
@@ -108,7 +108,7 @@
   </head>
   <body>
 	<div id="loading"></div>
-	<div id="dropdown" style="margin-top:40px;margin-left:400px;"> <select id="mySelect" onchange="myFunction()">
+	<div id="dropdown" style="margin-top:40px;margin-left:400px;">Select Sensor : <select id="mySelect" onchange="myFunction()">
 	<option value="p0A_NTWRK">p0A_NTWRK</option>
 	<option value="p2B_NTWRK">p2B_NTWRK</option>
 	<option value="p4B_NTWRK">p4B_NTWRK</option>
