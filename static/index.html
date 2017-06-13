@@ -45,12 +45,12 @@
 		if(first=="true")
 		{
 			
-			url = "https://healthcare-12.appspot.com/_ah/api/temperatures/v1/temperatures?limit=11";
+			url = "https://healthcare-12.appspot.com/_ah/api/temperatures/v1/temperatures?limit=11&sensor=p0A_NTWRK";
 			first="false";
 		}
 		else
 		{
-			url = "https://healthcare-12.appspot.com/_ah/api/temperatures/v1/temperatures?limit=13";
+			url = "https://healthcare-12.appspot.com/_ah/api/temperatures/v1/temperatures?limit=13&sensor=p0A_NTWRK";
 		}
 		
 		http.open("GET", url, true);

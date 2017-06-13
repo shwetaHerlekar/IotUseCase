@@ -32,6 +32,7 @@ type TemperatureList struct{
 
 type TemperatureListReq struct {
 	Limit  int  `json:"limit"`
+	Sensor  string  `json:"sensor"`
 }
 
 type TemperatureService struct {
@@ -120,13 +121,17 @@ func (ts *TemperatureService) List(c context.Context, r *TemperatureListReq) (*T
 		query = client.Query(
                 "SELECT "+
                  "*"+
-                 "FROM streamingData.sensorData order by time desc limit 1;")
+                 "FROM streamingData.sensorData where sensorid ='"+
+				 +r.sensor+
+				 +"' order by time desc limit 1;")
 	  }else{
 		log.Infof(c,"%v", r.Limit)
 		query = client.Query(
                 "SELECT "+
                  "*"+
-                 "FROM streamingData.sensorData order by time desc limit 3;")
+                 "FROM streamingData.sensorData where sensorid ='"+
+				 +r.sensor+
+				 +"' order by time desc limit 3;")
 	  }
 		log.Infof(c,"%v", query)
         // Use standard SQL syntax for queries.
