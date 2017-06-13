@@ -11,8 +11,7 @@
 	//var temp=[], humidity=[], timestamp=[];
 	var jresp;
 	var data;
-	var flag ="false"
-	var first="true";
+	var flag ="false",first="true", sensor="p0A_NTWRK";
 	var interval = 60000, myDiv; 
 
       show = function(){
@@ -27,7 +26,9 @@
 	
 	window.onload = function(){
 		
-		myDiv= document.getElementById("loading"),
+		myDiv= document.getElementById("loading");
+		myDiv1= document.getElementById("dropdown");
+		myDiv1.style.display = "none";
 		show();
 		google.charts.load('current', {'packages':['corechart']});
 		 
@@ -45,12 +46,12 @@
 		if(first=="true")
 		{
 			
-			url = "https://healthcare-12.appspot.com/_ah/api/temperatures/v1/temperatures?limit=11&sensor=p0A_NTWRK";
-			first="false";
+			url = "https://healthcare-12.appspot.com/_ah/api/temperatures/v1/temperatures?limit=11&sensor="+sensor;
+			//first="false";
 		}
 		else
 		{
-			url = "https://healthcare-12.appspot.com/_ah/api/temperatures/v1/temperatures?limit=13&sensor=p0A_NTWRK";
+			url = "https://healthcare-12.appspot.com/_ah/api/temperatures/v1/temperatures?limit=13&sensor="+sensor;
 		}
 		
 		http.open("GET", url, true);
@@ -67,14 +68,14 @@
 	}
 	
 	function drawChart() {
-        
-		if(flag=="false")
+        myDiv1.style.display = "block";
+		if(first=="true")
 		{
 			data = new google.visualization.DataTable();
 			data.addColumn('string', 'Timestamp');
 			data.addColumn('number', 'Temperature');
 			data.addColumn('number', 'Humidity');
-			flag="true";
+			first="false";
 		}
 		var i;
 		for(i=jresp.items.length-1;i>=0;i--)
@@ -97,10 +98,22 @@
 
         chart.draw(data, options);
       }
+	
+	function myFunction() {
+    sensor = document.getElementById("mySelect").value;
+	first="true";
+	loadData();
+	}
     </script>
   </head>
   <body>
 	<div id="loading"></div>
+	<div id="dropdown" style="margin-top:40px;margin-left:400px;"> <select id="mySelect" onchange="myFunction()">
+	<option value="p0A_NTWRK">p0A_NTWRK</option>
+	<option value="p2B_NTWRK">p2B_NTWRK</option>
+	<option value="p4B_NTWRK">p4B_NTWRK</option>
+	<option value="p5B_NTWRK">p5B_NTWRK</option>
+	</select> </div>
     <div id="curve_chart" style="width: 900px; height: 500px"></div>
 	<p id="date" style="margin-left:380px;"></p>
   </body>
