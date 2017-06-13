@@ -12,14 +12,16 @@
 	var jresp;
 	var data;
 	var flag ="false",first="true", sensor="p0A_NTWRK";
-	var interval = 60000, myDiv; 
+	var interval = 60000, myDiv,myDiv1; 
 
       show = function(){
+		
 	    myDiv.style.display = "block";
         setTimeout(hide, 5000); // 5 seconds
       },
 
       hide = function(){
+		
         myDiv.style.display = "none";
       };
 
@@ -36,7 +38,6 @@
 		setInterval(function(){ 
 		//alert("Hello"); 
 		loadData();
-		timeout+=interval;
 	   }, interval);
 	}
 	
