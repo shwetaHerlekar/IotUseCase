@@ -122,16 +122,16 @@ func (ts *TemperatureService) List(c context.Context, r *TemperatureListReq) (*T
                 "SELECT "+
                  "*"+
                  "FROM streamingData.sensorData where sensorid ='"+
-				 +r.sensor+
-				 +"' order by time desc limit 1;")
+				 r.Sensor+
+				 "' order by time desc limit 1;")
 	  }else{
 		log.Infof(c,"%v", r.Limit)
 		query = client.Query(
                 "SELECT "+
                  "*"+
                  "FROM streamingData.sensorData where sensorid ='"+
-				 +r.sensor+
-				 +"' order by time desc limit 3;")
+				 r.Sensor+
+				 "' order by time desc limit 3;")
 	  }
 		log.Infof(c,"%v", query)
         // Use standard SQL syntax for queries.
